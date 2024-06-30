@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... (previous head content) ... -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <!-- Permalink for the page -->
+        <div>
+            Permalink: <a href="{{ request.build_absolute_uri }}" target="_blank">{{ request.build_absolute_uri }}</a>
+        </div>
+        <!-- Add your custom header content here -->
+        <h1>Your Custom Header</h1>
+    </header>
+
+    <!-- Content Section -->
+    <div>
+        {{ scraped_content | safe }}
+
+        <!-- Embed YouTube videos dynamically -->
+        {% for youtube_url in youtube_urls %}
+            <iframe width="560" height="315" src="{{ youtube_url }}" frameborder="0" allowfullscreen></iframe>
+        {% endfor %}
+
+        <!-- Display links within the scraped content -->
+        {% for link in links %}
+            <a href="#" onclick="handleLinkClick('{{ link }}');">{{ link }}</a>
+            <br>
+        {% endfor %}
+
+        <!-- Frame for loading links -->
+        <iframe id="linkFrame" width="100%" height="400" frameborder="0"></iframe>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <!-- Navigation Links -->
+        <div>
+            <a href="https://proxysite.pro">Home</a> |
+            <a href="#">Top</a> |
+            <a href="#">About Us</a>
+        </div>
+        <!-- Add your custom footer content here -->
+        <p>&copy; 2024 Your Company</p>
+    </footer>
+
+    <script>
+        // Existing JavaScript code remains unchanged
+
+        // Updated function to handle link clicks and load in the frame
+        const handleLinkClick = (url) => {
+            // Fetch dynamic content for the clicked link
+            fetch('/fetch_dynamic_content?url=' + encodeURIComponent(url))
+                .then(response => response.text())
+                .then(data => {
+                    // Save the URL to sessionStorage
+                    sessionStorage.setItem("encodedUrl", url);
+                    // Load the fetched content in the iframe
+                    document.querySelector("#linkFrame").srcdoc = data;
+                });
+        };
+    </script>
+</body>
+</html>

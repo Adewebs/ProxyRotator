@@ -1,0 +1,5 @@
+you have to install following library
+django
+requests
+beautifulsoup4
+pip install django requests beautifulsoup4

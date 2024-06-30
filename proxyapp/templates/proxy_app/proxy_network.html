@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proxy Network</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+  <!-- Navigation Header -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Proxy Ass-hider</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#about">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact">Contact Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#privacy">Privacy Policy</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero-section" class="bg-primary text-light text-center py-5">
+    <div class="container">
+      <h1>Welcome to Proxy Ass-hider</h1>
+      <p class="lead">Your ultimate solution for secure and anonymous browsing by Adewebs Technologies.</p>
+    </div>
+  </section>
+
+  <!-- Main Content Section -->
+  <div class="container mt-5">
+    <section id="form-section">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <h2 class="text-center">Enter URL and Surf</h2>
+          <form class="text-start" method="POST" action="">
+               {% csrf_token %}
+            <div class="form-group">
+              <label for="urlInput">URL:</label>
+              <input type="text" class="form-control" id="urlInput" name ="input_url" placeholder="Enter URL">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Surf</button>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <!-- Add other sections with images and text as needed -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Company Page Section -->
+    <section id="company-section" class="mt-5">
+      <h2>Our Company</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sed ullamcorper urna. Vestibulum ante ipsum primis
+        in faucibus orci luctus et ultrices posuere cubilia Curae; In hac habitasse platea dictumst.</p>
+
+      <!-- New Content -->
+      <h3>Proxy Network Features</h3>
+      <p><strong>Easy to Use:</strong> Just open your browser and enter the website address to unblock and access any blocked website at school or work. It works on any device, including a computer, mobile, or tablet, without installing anything.</p>
+
+      <p><strong>More Speed:</strong> Unblock all websites at lightning-fast speed, thanks to our gigabit network proxy servers across the USA. No annoying buffering.</p>
+
+      <p><strong>Global Access:</strong> Get connected from anywhere across the globe without any restriction. Say goodbye to "this website is not available in your country" messages forever!</p>
+
+      <p><strong>Surf Anonymously:</strong> We do not store or track logs. No one but yourself knows what you are watching or saying.</p>
+
+      <h3>What is a Web Proxy?</h3>
+      <p>A web proxy is a web-based proxy service that works within your own web browser and requires no additional software to be installed on your computer. The greatest advantage of using a web proxy is its portability and ease of use since it can be accessed from anywhere in the world without making any complicated changes to your computer's settings or following a list of steps.</p>
+
+      <h3>Why should I use Web Proxy?</h3>
+      <p>If you wish to maintain privacy and anonymity while surfing the Internet, there is another solution apart from using a VPN: proxy sites. A proxy server acts as an intermediary between your device and the internet, serving as a secure gateway to protect your identity and activities from hackers, regulatory agencies, internet service providers (ISPs), or other malicious entities. Bid farewell to digital vulnerabilities and enjoy a secure and anonymous online experience!</p>
+
+      <!-- Remaining Content -->
+      <h3>How is it different from other proxy site?</h3>
+      <p>As you may have noticed, we regularly change our proxy server domain addresses to ensure long-term sustainability, and that's why you are here. In addition to that, we also offer the following advantages:</p>
+
+      <ul>
+        <li>All features are completely free;</li>
+        <li>High-performance servers distributed globally;</li>
+        <li>Works perfectly as unblock Youtube and a proxy for other video websites;</li>
+        <li>Encrypt all traffic to evade detection;</li>
+        <li>No complex configuration required - can be used on any operating system.</li>
+      </ul>
+
+      <h3>Conclusion</h3>
+      <p>In summary, using proxysite is an excellent choice if you wish to protect your personal privacy and browse the internet anonymously. Proxysite.pro, with its powerful web proxy features, helps you bypass geographical restrictions seamlessly and safeguard your personal information, granting you increased freedom and security while browsing the internet.</p>
+    </section>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="bg-dark text-light text-center py-3">
+    <p>&copy; 2024 Your Website. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

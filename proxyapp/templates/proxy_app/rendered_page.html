@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rendered Page</title>
+</head>
+<body>
+
+{% for result in results %}
+    <h3>Proxy Info: {{ result.proxy_info }}</h3>
+
+    {% if result.error %}
+        <p>Error: {{ result.error }}</p>
+    {% else %}
+        {{ result.rendered_html|safe }}
+    {% endif %}
+
+    <hr>
+{% endfor %}
+
+</body>
+</html>

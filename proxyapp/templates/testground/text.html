@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Proxy Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            margin-right: 10px;
+            background: url('path/to/your-logo.png') no-repeat center center/contain;
+        }
+
+        .site-name {
+            font-size: 24px;
+            font-weight: bold;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .description {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 200px;
+            position: fixed;
+            background-color: #333;
+            padding-top: 70px;
+            color: #fff;
+            transition: width 0.3s;
+        }
+
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #555;
+        }
+
+        .content {
+            margin-left: 200px;
+            padding: 20px;
+            transition: margin-left 0.3s;
+        }
+
+        header #toggle-btn:checked ~ .sidebar {
+            width: 0;
+            display: none;
+        }
+
+        header #toggle-btn:checked ~ .content {
+            margin-left: 0;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background-color: #3498db;
+        }
+
+        /* Form Styles */
+        .form-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <input type="checkbox" id="toggle-btn">
+        <label for="toggle-btn">&#9776;</label>
+        <div class="logo"></div>
+        <div class="site-name">IP Rotator Software</div>
+        <div class="description">By Adewebs Technologies</div>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="{% url 'dashboard' %}">Home</a>
+        <a href="#">Add Proxy</a>
+        <a href="#">Pages</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="container mt-4 table-container">
+            <h2 class="mb-4 text-center">Visited Page List</h2>
+
+            <!-- Add Proxy Button -->
+            <button class="btn btn-primary mb-3" onclick="toggleForm()">Add New Proxy</button>
+
+            <!-- Form Container -->
+            <div class="form-container" id="proxyForm">
+                <h3>Add New Proxy</h3>
+                <!-- Your form elements go here (e.g., input fields) -->
+                <form action="{% url 'add_proxy' %}" method="post">
+                    {% csrf_token %}
+                    <label for="proxyIP">Proxy IP:</label>
+                    <input type="text" id="proxyIP" name="ip" required>
+
+                    <label for="proxyPort">Proxy Port:</label>
+                    <input type="text" id="proxyPort" name="port" required>
+
+                    <label for="proxyUsername">Username:</label>
+                    <input type="text" id="proxyUsername" name="username" required>
+
+                    <label for="proxyPassword">Password:</label>
+                    <input type="text" id="proxyPassword" name="password" required>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            <!-- Visited Page List Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <!-- Your existing table code here -->
+                     <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">IP</th>
+                            <th scope="col">Port</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Password</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for proxy_info in proxy_info %}
+                        <tr>
+                            <td>{{ proxy_info.ip }}</td>
+                            <td>{{ proxy_info.port }}</td>
+                            <td>{{ proxy_info.username }}</td>
+                            <td>{{ proxy_info.password }}</td>
+                            <td>
+                                <a href="{% url 'edit_proxy_info' proxy_info.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete_proxy_info' proxy_info.id %}" class="btn btn-danger btn-sm ml-2">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm() {
+            var formContainer = document.getElementById('proxyForm');
+            formContainer.style.display = (formContainer.style.display === 'none' || formContainer.style.display === '') ? 'block' : 'none';
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,513 @@
+def get_driver_with_proxy(proxy_info, username="ptwyrnjq", password='jxiqmmyq7cfy', max_retries=3, retry_delay=2):
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+
+    # Set up proxy
+    proxy = f"{proxy_info['ip']}:{proxy_info['port']}"
+    chrome_options.add_argument(f'--proxy-server={proxy}')
+
+    retry_count = 0
+    while retry_count < max_retries:
+        try:
+            # Test the proxy connection using a simple request with authentication
+            auth = None
+            if username and password:
+                auth = (username, password)
+
+            requests.get("http://www.nairaland.com", proxies={"http": proxy, "https": proxy}, auth=auth, timeout=5)
+
+            # If the request succeeds, create a WebDriver instance with the configured proxy
+            driver = webdriver.Chrome(options=chrome_options)
+            return driver
+
+        except ProxyError as e:
+            retry_count += 1
+            print(f"Failed to connect to proxy {proxy_info}. Retrying... ({retry_count}/{max_retries})")
+            time.sleep(retry_delay)
+
+    raise Exception(f"Failed to connect to proxy {proxy_info} after {max_retries} retries.")
+
+# Example usage with authentication
+def scrape_and_render_website(request):
+    url_to_scrape = "https://sharpdata.com.ng"
+
+    results = []
+
+    for proxy_info in proxies:
+        # Specify your proxy username and password if needed
+        username = "ptwyrnjq"
+        password = "jxiqmmyq7cfy"
+        driver = get_driver_with_proxy(proxy_info, username, password)
+
+        try:
+            driver.get(url_to_scrape)
+
+            # Wait for an element to be present on the page (adjust the locator and timeout as needed)
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "example-element")))
+
+            # Get the fully rendered HTML
+            rendered_html = driver.page_source
+            results.append({'proxy_info': proxy_info, 'rendered_html': rendered_html})
+
+        except Exception as e:
+            results.append({'proxy_info': proxy_info, 'error': str(e)})
+
+        finally:
+            driver.quit()
+
+    # Log the results to the console for debugging
+    print(results)
+
+    return render(request, 'proxy_app/rendered_page.html', {'results': results})
+
+
+
+    proxies = [
+    {'ip': '45.94.47.66', 'port': '8110'},
+    # Add more proxies as needed
+]
+
+
+
+
+# from django.shortcuts import render
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.common.proxy import Proxy, ProxyType
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# import time
+# import requests
+# from requests.exceptions import ProxyError
+#
+# # List of proxies and ports
+# proxies = [
+#     {'ip': '45.94.47.66', 'port': '8110'},
+#     # Add more proxies as needed
+# ]
+#
+# def get_driver_with_proxy(proxy_info, username="ptwyrnjq", password='jxiqmmyq7cfy', max_retries=3, retry_delay=2):
+#     chrome_options = Options()
+#     chrome_options.add_argument("--headless")
+#
+#     # Set up proxy
+#     proxy = f"{proxy_info['ip']}:{proxy_info['port']}"
+#     chrome_options.add_argument(f'--proxy-server={proxy}')
+#
+#     retry_count = 0
+#     while retry_count < max_retries:
+#         try:
+#             # Test the proxy connection using a simple request with authentication
+#             auth = None
+#             if username and password:
+#                 auth = (username, password)
+#
+#             requests.get("http://www.nairaland.com", proxies={"http": proxy, "https": proxy}, auth=auth, timeout=5)
+#
+#             # If the request succeeds, create a WebDriver instance with the configured proxy
+#             driver = webdriver.Chrome(options=chrome_options)
+#             return driver
+#
+#         except ProxyError as e:
+#             retry_count += 1
+#             print(f"Failed to connect to proxy {proxy_info}. Retrying... ({retry_count}/{max_retries})")
+#             time.sleep(retry_delay)
+#
+#     raise Exception(f"Failed to connect to proxy {proxy_info} after {max_retries} retries.")
+#
+# # Example usage with authentication
+# def scrape_and_render_website(request):
+#     url_to_scrape = "https://sharpdata.com.ng"
+#
+#     results = []
+#
+#     for proxy_info in proxies:
+#         # Specify your proxy username and password if needed
+#         username = "ptwyrnjq"
+#         password = "jxiqmmyq7cfy"
+#         driver = get_driver_with_proxy(proxy_info, username, password)
+#
+#         try:
+#             driver.get(url_to_scrape)
+#
+#             # Wait for an element to be present on the page (adjust the locator and timeout as needed)
+#             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "example-element")))
+#
+#             # Get the fully rendered HTML
+#             rendered_html = driver.page_source
+#             results.append({'proxy_info': proxy_info, 'rendered_html': rendered_html})
+#
+#         except Exception as e:
+#             results.append({'proxy_info': proxy_info, 'error': str(e)})
+#
+#         finally:
+#             driver.quit()
+#
+#     return render(request, 'proxy_app/rendered_page.html', {'results': results})
+#
+#
+#
+
+
+
+# List of proxies and ports
+
+
+# from django.shortcuts import render
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.common.proxy import Proxy, ProxyType
+# import time
+# import requests
+# from requests.exceptions import ProxyError
+#
+# # List of proxies and ports
+# proxies = [
+#     {'ip': '45.94.47.66', 'port': '8110'},
+#     # Add more proxies as needed
+# ]
+#
+# def get_driver_with_proxy(proxy_info, username="ptwyrnjq", password='jxiqmmyq7cfy', max_retries=3, retry_delay=2):
+#     chrome_options = Options()
+#     chrome_options.add_argument("--headless")
+#
+#     # Set up proxy
+#     proxy = f"{proxy_info['ip']}:{proxy_info['port']}"
+#     chrome_options.add_argument(f'--proxy-server={proxy}')
+#
+#     retry_count = 0
+#     while retry_count < max_retries:
+#         try:
+#             # Test the proxy connection using a simple request with authentication
+#             auth = None
+#             if username and password:
+#                 auth = (username, password)
+#
+#             requests.get("http://www.nairaland.com", proxies={"http": proxy, "https": proxy}, auth=auth, timeout=5)
+#
+#             # If the request succeeds, create a WebDriver instance with the configured proxy
+#             driver = webdriver.Chrome(options=chrome_options)
+#             return driver
+#
+#         except ProxyError as e:
+#             retry_count += 1
+#             print(f"Failed to connect to proxy {proxy_info}. Retrying... ({retry_count}/{max_retries})")
+#             time.sleep(retry_delay)
+#
+#     raise Exception(f"Failed to connect to proxy {proxy_info} after {max_retries} retries.")
+#
+# # Example usage with authentication
+# def scrape_and_render_website(request):
+#     url_to_scrape = "https://sharpdata.com.ng"
+#
+#     results = []
+#
+#     for proxy_info in proxies:
+#         # Specify your proxy username and password if needed
+#         username = "ptwyrnjq"
+#         password = "jxiqmmyq7cfy"
+#         driver = get_driver_with_proxy(proxy_info, username, password)
+#
+#         try:
+#             driver.get(url_to_scrape)
+#             time.sleep(5)  # Adjust as needed to wait for JavaScript execution
+#
+#             # Get the fully rendered HTML
+#             rendered_html = driver.page_source
+#             results.append({'proxy_info': proxy_info, 'rendered_html': rendered_html})
+#
+#         except Exception as e:
+#             results.append({'proxy_info': proxy_info, 'error': str(e)})
+#
+#         finally:
+#             driver.quit()
+#
+#     return render(request, 'proxy_app/rendered_page.html', {'results': results})
+#
+
+
+
+# def rotate_proxy(request):
+#     # proxies = Proxy.objects.all()
+#     proxies = '178.128.113.118'
+#     port = 23128
+#     if proxies:
+#         # proxy = proxies.first()
+#         try:
+#             response = requests.get('http://youtube.com', proxies={'http': f'http://{proxies}:{port}', 'https': f'http://{proxies}:{port}'})
+#             # Process the response as needed
+#             return HttpResponse(f"Proxy Rotated. Response: {response.text}")
+#         except Exception as e:
+#             return HttpResponse(f"Error: {str(e)}")
+#     else:
+#         return HttpResponse("No proxies available.")
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# # def rotate_proxy(request):
+# #     # Specify the user URL, proxy IP, and port
+# #     user_url = "http://sharpdata.com.ng"
+# #     proxy_address = '188.0.2.1'
+# #     port = 8888
+# #
+# #     try:
+# #         # Access the URL via proxy
+# #         response = requests.get(user_url, proxies={'http': f'http://{proxy_address}:{port}',
+# #                                                    'https': f'http://{proxy_address}:{port}'})
+# #
+# #         # Parse the HTML content
+# #         soup = BeautifulSoup(response.content, 'html.parser')
+# #
+# #         # Render the response to the user
+# #         return render(request, 'proxyapp/rendered_page.html', {'content': soup.prettify()})
+# #
+# #     except Exception as e:
+# #         return render(request, 'proxyapp/error_page.html', {'error_message': f"Error: {str(e)}"})
+#
+#
+# # def rotate_proxy(request):
+# #
+# #     if request.method == 'POST':
+# #         # user_url = request.POST["input_url"]
+# #         # proxy = Proxy.objects.first()
+# #         user_url = "google.com"
+# #         proxy = '50.168.72.122'
+# #         port= 80
+# #
+# #         try:
+# #             # Access the URL via proxy
+# #             response = requests.get(user_url, proxies={'http': f'http://{proxy.address}:{proxy.port}',
+# #                                                   'https': f'http://{proxy.address}:{proxy.port}'})
+# #
+# #             # Parse the HTML content
+# #             soup = BeautifulSoup(response.content, 'html.parser')
+# #
+# #             # Render the response to the user
+# #             return render(request, 'proxyapp/rendered_page.html', {'content': soup.prettify()})
+# #
+# #         except Exception as e:
+# #             return HttpResponse(f"Error: {str(e)}")
+# #
+# #     return render(request, 'proxyapp/proxy_network.html')
+# #
+# #     # Get a proxy from the database
+
+
+
+# List of proxies and ports
+proxies = [
+    {'ip': '178.128.113.118', 'port': '23128'},
+    # {'ip': '43.250.107.223', 'port': '80'},
+{'ip': '103.163.51.254', 'port': '80'},
+# {'ip': '139.162.78.109', 'port': 3128},
+# {'ip': '51.83.193.208', 'port': 80},
+# {'ip': '2.189.59.2', 'port': 80},
+    # {'ip': '46.47.197.210', 'port': '3128'},
+    # {'ip': '2.189.59.3', 'port': '80'},
+    # {'ip': '2.189.59.4', 'port': '80'},
+    # Add more proxies as needed
+]
+
+
+def get_driver_with_proxy(proxy_info, max_retries=3, retry_delay=2):
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+
+    # Set up proxy
+    proxy = f"{proxy_info['ip']}:{proxy_info['port']}"
+    chrome_options.add_argument(f'--proxy-server={proxy}')
+
+    retry_count = 0
+    while retry_count < max_retries:
+        try:
+            # Test the proxy connection using a simple request
+            requests.get("http://www.nairaland.com", proxies={"http": proxy, "https": proxy}, timeout=5)
+
+            # If the request succeeds, create a WebDriver instance with the configured proxy
+            driver = webdriver.Chrome(options=chrome_options)
+            return driver
+
+        except ProxyError as e:
+            retry_count += 1
+            print(f"Failed to connect to proxy {proxy_info}. Retrying... ({retry_count}/{max_retries})")
+            time.sleep(retry_delay)
+
+    raise Exception(f"Failed to connect to proxy {proxy_info} after {max_retries} retries.")
+
+def scrape_and_render_website(request):
+    url_to_scrape = "https://facebook.com"
+
+    results = []
+
+    for proxy_info in proxies:
+        driver = get_driver_with_proxy(proxy_info)
+
+        try:
+            driver.get(url_to_scrape)
+            time.sleep(5)  # Adjust as needed to wait for JavaScript execution
+
+            # Get the fully rendered HTML
+            rendered_html = driver.page_source
+            results.append({'proxy_info': proxy_info, 'rendered_html': rendered_html})
+
+        except Exception as e:
+            results.append({'proxy_info': proxy_info, 'error': str(e)})
+
+        finally:
+            driver.quit()
+
+    return render(request, 'proxy_app/rendered_page.html', {'results': results})
+
+# from django.shortcuts import render
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.common.proxy import Proxy, ProxyType
+# import time
+#
+# # List of proxies and ports
+# proxies = [
+#     {'ip': '160.19.94.188', 'port': '5671'},
+#     {'ip': '2.189.59.3', 'port': '80'},
+#     # Add more proxies as needed
+# ]
+#
+#
+# def get_driver_with_proxy(proxy_info):
+#     chrome_options = Options()
+#     chrome_options.add_argument("--headless")
+#
+#     # Set up proxy
+#     proxy = Proxy()
+#     proxy.proxy_type = ProxyType.MANUAL
+#     proxy.http_proxy = f"{proxy_info['ip']}:{proxy_info['port']}"
+#     proxy.ssl_proxy = f"{proxy_info['ip']}:{proxy_info['port']}"
+#     capabilities = webdriver.DesiredCapabilities.CHROME
+#     proxy.add_to_capabilities(capabilities)
+#
+#     # Create a WebDriver instance with the configured proxy
+#     driver = webdriver.Chrome(options=chrome_options, desired_capabilities=capabilities)
+#     return driver
+#
+#
+# def scrape_and_render_website(request):
+#     url_to_scrape = "https://sharpdata.com.ng"
+#
+#     results = []
+#
+#     for proxy_info in proxies:
+#         driver = get_driver_with_proxy(proxy_info)
+#
+#         try:
+#             driver.get(url_to_scrape)
+#             time.sleep(5)  # Adjust as needed to wait for JavaScript execution
+#
+#             # Get the fully rendered HTML
+#             rendered_html = driver.page_source
+#             results.append({'proxy_info': proxy_info, 'rendered_html': rendered_html})
+#
+#         except Exception as e:
+#             results.append({'proxy_info': proxy_info, 'error': str(e)})
+#
+#         finally:
+#             driver.quit()
+#
+#     return render(request, 'proxy_app/rendered_page.html', {'results': results})
+
+# # proxyapp/views.py
+# from django.shortcuts import render
+# from .models import Proxy
+# import requests
+# from requests_html import HTMLSession
+#
+#
+# def rotate_proxy(request):
+#     proxies = '178.128.113.118'
+#     port = 23128
+#     url_to_scrape = 'http://sharpdata.com.ng'
+#
+#     if proxies:
+#         try:
+#             # Use requests_html to fetch and render the entire page
+#             response = requests.get(url_to_scrape)
+#             print(response)
+#             session = HTMLSession()
+#             r = session.get(url_to_scrape,
+#                             proxies={'http': f'http://{proxies}:{port}', 'https': f'http://{proxies}:{port}'})
+#
+#             # Check if the request was successful (status code 200)
+#             if r.status_code == 200:
+#                 # Pass the rendered content to your template
+#                 return render(request, 'proxy_app/response_template.html', {'content': r.html.html})
+#             else:
+#                 # If the request was not successful, render an error template
+#                 return render(request, 'proxy_app/error_page.html',
+#                               {'status_code': r.status_code, 'reason': r.reason})
+#
+#         except Exception as e:
+#             # Render an error template for general exceptions
+#             return render(request, 'proxy_app/error_page.html', {'error_message': str(e)})
+#     else:
+#         # Render a template for when no proxies are available
+#         return render(request, 'proxy_app/proxy_network.html')
+
+# proxyapp/views.py
+# from django.shortcuts import render
+# from .models import Proxy
+# import requests
+
+#
+# def rotate_proxy(request):
+#     proxies = '178.128.113.118'
+#     port = 23128
+#     if proxies:
+#         try:
+#             response = requests.get('http://sharpdata.com.ng',
+#                                     proxies={'http': f'http://{proxies}:{port}', 'https': f'http://{proxies}:{port}'})
+#
+#             # Check if the request was successful (status code 200)
+#             if response.status_code == 200:
+#                 # Render a template with an iframe containing the response content
+#                 return render(request, 'proxy_app/response_template.html', {'iframe_content': response.text})
+#             else:
+#                 # If the request was not successful, render an error template
+#                 return render(request, 'proxy_app/error_page.html',
+#                               {'status_code': response.status_code, 'reason': response.reason})
+#
+#         except Exception as e:
+#             # Render an error template for general exceptions
+#             return render(request, 'proxy_app/error_page.html', {'error_message': str(e)})
+#     else:
+#         # Render a template for when no proxies are available
+#         return render(request, 'proxy_app/proxy_network.html')
+
+# # proxyapp/views.py
+# from django.shortcuts import render
+# from django.http import HttpResponse
+# # from .forms import URLForm
+# from .models import Proxy
+# import requests
+# from bs4 import BeautifulSoup
+#

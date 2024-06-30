@@ -1,0 +1,56 @@
+<!-- scraper/templates/testground/index2.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... (previous head content) ... -->
+</head>
+<body>
+ <p>Selected Proxy: {{ selected_proxy_ip }}:{{ selected_proxy_port }}</p>
+    {{ scraped_content | safe }}
+
+    <!-- Embed YouTube videos dynamically -->
+    {% for youtube_url in youtube_urls %}
+        <iframe width="560" height="315" src="{{ youtube_url }}" frameborder="0" allowfullscreen></iframe>
+    {% endfor %}
+
+    <!-- Display links within the scraped content -->
+<!--    {% for link in links %}-->
+<!--        <a href="#" onclick="handleLinkClick('{{ link }}');">{{ link }}</a>-->
+<!--        <br>-->
+<!--    {% endfor %}-->
+
+    <!-- ... (remaining body content) ... -->
+
+    <script>
+        const homeBtn = document.getElementById('home');
+        const screenBtn = document.getElementById('screen');
+
+        homeBtn.onclick = () => {
+            window.location.href = 'https://proxysite.pro';
+        };
+
+        screenBtn.onclick = () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        };
+
+        // Function to handle link clicks
+        const handleLinkClick = (url) => {
+            // Fetch dynamic content for the clicked link
+            fetch('/fetch_dynamic_content?url=' + encodeURIComponent(url))
+                .then(response => response.text())
+                .then(data => {
+                    // Save the URL to sessionStorage
+                    sessionStorage.setItem("encodedUrl", url);
+                    // Load the fetched content in the iframe
+                    document.querySelector("#frame").srcdoc = data;
+                });
+        };
+
+        // ... (remaining script content) ...
+    </script>
+</body>
+</html>

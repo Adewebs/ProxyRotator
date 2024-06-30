@@ -1,0 +1,97 @@
+
+username = 'testproxy1'
+password = 'testproxy1'
+auth = HTTPProxyAuth(username, password)
+# # Function to scrape website with proxy rotation
+# def scrape_website_with_rotation(url, proxies):
+#     for proxy in proxies:
+#         try:
+#             proxy_url = f"http://{proxy['ip']}:{proxy['port']}"
+#             response = requests.get(url, proxies={'http': proxy_url, 'https': proxy_url})
+#             response.raise_for_status()
+#
+#             # Continue with your scraping logic using BeautifulSoup or other methods
+#             soup = BeautifulSoup(response.text, 'html.parser')
+#
+#
+#             # Extract YouTube video URLs
+#             youtube_urls = [f'https://www.youtube.com/embed/{video["id"]}' for video in soup.find_all('iframe') if
+#                             'youtube.com/embed/' in video.get('src', '')]
+#             # Extracting links
+#             links = []
+#             for a_tag in soup.find_all('a', href=True):
+#                 link = urljoin(url, a_tag['href'])
+#                 links.append(link)
+#                 # Update the href attribute in the soup with the modified link
+#                 a_tag['href'] = link
+#             # Extract links
+#             # links = [urljoin(url, a['href']) for a in soup.find_all('a', href=True)]
+#             # # Update the href attribute in the soup with the modified link
+#             # a_tag['href'] = link
+#             content = soup.prettify()
+#
+#             return content, youtube_urls, links
+#         except requests.RequestException as e:
+#             print(f"Error with proxy {proxy['ip']}:{proxy['port']}: {e}")
+#
+#     # Handle the case when all proxies fail
+#     print("All proxies failed.")
+#     return None, None, None
+
+
+# Function to fetch dynamic content
+
+def scrape_website_with_rotation(url, proxies):
+    for proxy in proxies:
+
+        try:
+            proxy_url = f"http://{proxy['38.154.227.167']}:{proxy['5868']}"
+            response = requests.get(url, proxies={'http': proxy_url, 'https': proxy_url}, auth=auth, timeout=5)  # Add a timeout parameter
+            response.raise_for_status()
+
+
+            # Continue with your scraping logic using BeautifulSoup or other methods
+            soup = BeautifulSoup(response.text, 'html.parser')
+            content = soup.prettify()
+
+            # Extract YouTube video URLs
+            youtube_urls = [f'https://www.youtube.com/embed/{video["id"]}' for video in soup.find_all('iframe') if
+                            'youtube.com/embed/' in video.get('src', '')]
+
+            # Extract links
+            links = [urljoin(url, a['href']) for a in soup.find_all('a', href=True)]
+
+            return content, youtube_urls, links
+        except requests.RequestException as e:
+            print(f"Error with proxy {proxy['ip']}:{proxy['port']}: {e}")
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+
+    # Handle the case when all proxies fail
+    print("All proxies failed.")
+    return None, None, None
+
+
+def fetch_dynamic_content(url):
+    response = requests.get(url)
+    return response.text
+
+
+# Django view function
+def display_content_with_rotation(request):
+    # Replace 'https://example.com' with the URL of the website you want to scrape
+    website_url = 'https://agrolearner.com/'
+
+    # Example list of proxies
+    proxies_list = [
+        {'ip': '38.154.227.167', 'port': 5868},
+
+        # Add more proxies as needed
+    ]
+
+    # Scrape the content, video URLs, and links from the website using rotating proxies
+    scraped_content, youtube_urls, links = scrape_website_with_rotation(website_url, proxies_list)
+
+    # Pass the scraped content, video URLs, and links to the template
+    return render(request, 'testground/index3.html',
+                  {'scraped_content': scraped_content, 'youtube_urls': youtube_urls, 'links': links})
